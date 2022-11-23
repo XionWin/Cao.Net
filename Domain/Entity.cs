@@ -3,11 +3,12 @@
 namespace Domain;
 public class Entity
 {
-    [GuidSensitive]
+    [WorldSensitive]
     public required Guid Id { get; init; }
-    [GuidSensitive]
+    [WorldSensitive]
     public string? Name { get; set; }
     public string? Description { get; set; }
+    [WorldSensitive]
     public Vector2 Position { get; set; }
 
     public override int GetHashCode()

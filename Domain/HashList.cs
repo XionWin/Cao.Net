@@ -6,17 +6,29 @@ namespace Domain;
 public class HashList<T>
 {
     private Hashtable _items = new Hashtable();
+
+    
+    public T? this[object key]
+    {
+        get => _items.ContainsKey(key) && _items[key] is T value ? value : default(T);
+        set
+        {
+            
+        }
+    }
     
     public Result Add(object key, T value, [CallerArgumentExpression("key")] string keyCaller = "") =>
         key is not null ?
-                this._items.Contains(key) ?
-                    this._items[key] is HashSet<T> itemSet ?
+            (this._items.Contains(key) ?
+                this._items[key] :
+                new HashSet<T>().With(x => this._items.Add(key, x))) is HashSet<T> itemSet ?
+                    itemSet.Contains(value) ?
+                        Result.OK() :
                         itemSet.Add(value) ?
                             Result.OK() :
-                            throw new Exception($"ItemSet type error") :
-                        throw new Exception($"ItemSet type error") :
-                    Result.OK().With(_ => this._items.Add(key, new HashSet<T>().With(x => x.Add(value)))) :
-                throw new Exception($"Key {keyCaller} can't be null");
+                            throw new Exception($"Add value error") :
+                    throw new Exception($"ItemSet type error") :
+            throw new Exception($"Key {keyCaller} can't be null");
 
     public Result Remove(object key, [CallerArgumentExpression("key")] string keyCaller = "") =>
         key is not null ?

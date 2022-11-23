@@ -1,4 +1,6 @@
 namespace Domain;
+
+// We just care about the Success case
 public class Result
 {
     public static Result OK() => new Result();
