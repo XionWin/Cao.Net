@@ -10,11 +10,8 @@ public class HashList<T>
     
     public T? this[object key]
     {
-        get => _items.ContainsKey(key) && _items[key] is T value ? value : default(T);
-        set
-        {
-            
-        }
+        get => this.Get(key);
+        set => this.Add(key, value!);
     }
     
     public Result Add(object key, T value, [CallerArgumentExpression("key")] string keyCaller = "") =>
@@ -29,6 +26,9 @@ public class HashList<T>
                             throw new Exception($"Add value error") :
                     throw new Exception($"ItemSet type error") :
             throw new Exception($"Key {keyCaller} can't be null");
+
+    public T? Get(object key) => 
+        this._items.ContainsKey(key) && _items[key] is T value ? value : default(T);
 
     public Result Remove(object key, [CallerArgumentExpression("key")] string keyCaller = "") =>
         key is not null ?

@@ -27,7 +27,7 @@ public class World
                 DimenstionTable[prop.Name] :
                 new HashList<Entity>().With(x => DimenstionTable.Add(prop.Name, x));
 
-                list.Add(value, entity);
+                list[value] = entity;
             }
 
         }
